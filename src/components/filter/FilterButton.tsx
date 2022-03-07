@@ -204,9 +204,11 @@ const OptionList = styled.ul`
 `;
 
 const OptionItem = styled.li`
+  position: absolute;
   display: flex;
   align-items: center;
   font-size: ${({ theme }) => theme.fontSize.middle};
+  z-index: 6;
   input[type='checkbox'] {
     width: 18px;
     height: 18px;
