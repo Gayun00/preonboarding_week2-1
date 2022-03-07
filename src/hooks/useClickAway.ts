@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 
 function useClickAway() {
   const [isOpened, setIsOpened] = useState(false);
-  const ref = useRef<HTMLElement>(null)
+  const clickRef = useRef<HTMLElement>(null)
 
   function handleClickAway(e: MouseEvent): void {
     const target = e.target as HTMLElement;
-    if(!ref.current?.contains(target)) setIsOpened(false)
+    if(!clickRef.current?.contains(target)) setIsOpened(false)
   }
 
   function onToggle() {
@@ -23,7 +23,7 @@ function useClickAway() {
       document.removeEventListener("click", handleClickAway)
     }
   }, [isOpened]);
-  return {ref, isOpened, setIsOpened, onToggle}
+  return {clickRef, isOpened, setIsOpened, onToggle}
 }
 
 export default useClickAway

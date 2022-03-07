@@ -1,37 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { TSideBar } from 'components/atoms/MenuToggle';
 import logoBlue from 'assets/img/logo-blue.png';
 import buildingGray from 'assets/img/building-gray.png';
+import useClickAway from 'hooks/useClickAway';
 
-function Sidebar({ isSideBarOpened, setIsSideBarOpened }: TSideBar) {
-  const sideBarRef = useRef<HTMLInputElement>(null);
-
-  const handleClickOutside = (e: MouseEvent): void => {
-    const target = e.target as HTMLElement;
-    if (target.classList.contains('background')) setIsSideBarOpened(false);
-  };
+function Sidebar() {
+  const { clickRef, isOpened } = useClickAway();
 
   useEffect(() => {
-    window.addEventListener('click', handleClickOutside);
-    return () => {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (sideBarRef.current) {
-      if (isSideBarOpened) {
-        sideBarRef.current.style.transform = 'translateX(0)';
-      } else {
-        sideBarRef.current.style.transform = 'translateX(-100%)';
-      }
+    if (clickRef.current) {
+      clickRef.current.style.transform = isOpened
+        ? 'translateX(0)'
+        : 'translateX(-100%)';
     }
-  }, [isSideBarOpened]);
+  }, [isOpened]);
 
   return (
     <>
-      <Wrapper ref={sideBarRef}>
+      <Wrapper ref={clickRef}>
         <Header>
           <LogoImg src={logoBlue} alt="블루로고" />
         </Header>
@@ -45,7 +31,7 @@ function Sidebar({ isSideBarOpened, setIsSideBarOpened }: TSideBar) {
           <Logout>로그아웃</Logout>
         </Container>
       </Wrapper>
-      {isSideBarOpened && <Background />}
+      {isOpened && <Background />}
     </>
   );
 }
