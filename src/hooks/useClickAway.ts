@@ -1,12 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, RefObject } from 'react';
+
+export interface ClickAway {
+  clickRef: RefObject<HTMLElement>;
+  isOpened: boolean;
+  onToggle: () => void;
+}
 
 function useClickAway() {
   const [isOpened, setIsOpened] = useState(false);
-  const clickRef = useRef<HTMLElement>(null)
+  const clickRef = useRef<HTMLElement>(null);
 
   function handleClickAway(e: MouseEvent): void {
     const target = e.target as HTMLElement;
-    if(!clickRef.current?.contains(target)) setIsOpened(false)
+    if (!clickRef.current?.contains(target)) setIsOpened(false);
   }
 
   function onToggle() {
@@ -15,15 +21,15 @@ function useClickAway() {
 
   useEffect(() => {
     if (isOpened) {
-      document.addEventListener("click", handleClickAway)
+      document.addEventListener('click', handleClickAway);
     } else {
-      document.removeEventListener("click", handleClickAway)
+      document.removeEventListener('click', handleClickAway);
     }
     return () => {
-      document.removeEventListener("click", handleClickAway)
-    }
+      document.removeEventListener('click', handleClickAway);
+    };
   }, [isOpened]);
-  return {clickRef, isOpened, setIsOpened, onToggle}
+  return { clickRef, isOpened, onToggle };
 }
 
-export default useClickAway
+export default useClickAway;

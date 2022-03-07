@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MenuToggle from 'components/atoms/MenuToggle';
+import useClickAway from 'hooks/useClickAway';
 import logo from '../../../assets/img/logo.png';
 import building from '../../../assets/img/building.png';
 import Sidebar from '../Sidebar';
 
 function HeaderNav() {
-  const [isSideBarOpened, setIsSideBarOpened] = useState(false);
+  const { clickRef, isOpened, onToggle } = useClickAway();
 
   return (
     <HeaderContainer>
-      <MenuToggle
-        isSideBarOpened={isSideBarOpened}
-        setIsSideBarOpened={setIsSideBarOpened}
-      />
-      <Sidebar
-        isSideBarOpened={isSideBarOpened}
-        setIsSideBarOpened={setIsSideBarOpened}
-      />
+      <MenuToggle onToggle={onToggle} />
+      <Sidebar isOpened={isOpened} clickRef={clickRef} />
       <div>
         <LogoImg src={logo} alt="logo" />
       </div>

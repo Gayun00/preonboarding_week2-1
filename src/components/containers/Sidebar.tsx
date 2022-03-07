@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import logoBlue from 'assets/img/logo-blue.png';
 import buildingGray from 'assets/img/building-gray.png';
-import useClickAway from 'hooks/useClickAway';
+import { ClickAway } from 'hooks/useClickAway';
 
-function Sidebar() {
-  const { clickRef, isOpened } = useClickAway();
+type Sidebar = Pick<ClickAway, 'clickRef' | 'isOpened'>;
 
+function Sidebar({ clickRef, isOpened }: Sidebar) {
   useEffect(() => {
     if (clickRef.current) {
       clickRef.current.style.transform = isOpened

@@ -1,15 +1,13 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import hamburger from 'assets/img/hamburger.png';
+import { ClickAway } from 'hooks/useClickAway';
 
-export type TSideBar = {
-  isSideBarOpened: boolean;
-  setIsSideBarOpened: Dispatch<SetStateAction<boolean>>;
-};
+type TMenuToggle = Pick<ClickAway, 'onToggle'>;
 
-function MenuToggle({ isSideBarOpened, setIsSideBarOpened }: TSideBar) {
+function MenuToggle({ onToggle }: TMenuToggle) {
   const onClickButton = () => {
-    setIsSideBarOpened(!isSideBarOpened);
+    onToggle();
   };
 
   return (
