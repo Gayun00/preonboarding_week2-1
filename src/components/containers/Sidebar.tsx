@@ -7,17 +7,9 @@ import { ClickAway } from 'hooks/useClickAway';
 type Sidebar = Pick<ClickAway<RefObject<HTMLElement>>, 'clickRef' | 'isOpened'>;
 
 function Sidebar({ clickRef, isOpened }: Sidebar) {
-  useEffect(() => {
-    if (clickRef.current) {
-      clickRef.current.style.transform = isOpened
-        ? 'translateX(0)'
-        : 'translateX(-100%)';
-    }
-  }, [isOpened]);
-
   return (
     <>
-      <Wrapper ref={clickRef}>
+      <Wrapper ref={clickRef} isOpened={isOpened}>
         <Header>
           <LogoImg src={logoBlue} alt="블루로고" />
         </Header>
@@ -57,7 +49,8 @@ const Wrapper = styled.aside`
   height: 100vh;
   background-color: ${({ theme }) => theme.color.defaultWhite};
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.24);
-  transform: translateX(-100%);
+  transform: ${({ isOpened }: { isOpened: boolean }) =>
+    isOpened ? 'translateX(0)' : 'translateX(-100%)'};
   transition: all 0.2s ease-in;
   z-index: 3;
 `;
