@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { filterMethod, filterMaterial } from 'store/request';
 import store from 'store/store';
+import useClickAway from 'hooks/useClickAway';
 
 type Props = {
   name: string;
@@ -17,10 +18,10 @@ function FilterButton({ name, options }: Props) {
     (state: RootState) => state.requests,
   );
   const dispatch = useDispatch();
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const { isOpened, clickRef, onToggle } = useClickAway();
 
   const handleClick = () => {
-    setIsClicked(!isClicked);
+    onToggle();
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,37 +46,20 @@ function FilterButton({ name, options }: Props) {
     }
   };
 
-  const handleClickOutside = (e: MouseEvent): void => {
-    const target = e.target as HTMLElement;
-    if (
-      !target.classList.contains('optionList') &&
-      target.tagName !== 'BUTTON' &&
-      target.tagName !== 'svg'
-    )
-      setIsClicked(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('click', handleClickOutside);
-    return () => {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
-  if (name === '가공방식') {
-    return (
-      <Wrap>
-        <Button
-          value="method"
-          type="button"
-          onClick={handleClick}
-          isSelected={methods.length > 0}
-        >
-          {name}
-          {methods.length > 0 && <span>({methods.length})</span>}
-          <IoMdArrowDropdown className="icon" size="20" />
-        </Button>
-        {isClicked && (
+  return (
+    <Wrap>
+      <Button
+        value="method"
+        type="button"
+        onClick={handleClick}
+        isSelected={methods.length > 0}
+      >
+        {name}
+        {methods.length > 0 && <span>({methods.length})</span>}
+        <IoMdArrowDropdown className="icon" size="20" />
+      </Button>
+      {isOpened && (
+        <div ref={clickRef}>
           <OptionList>
             {options.map((option) => {
               if (methods.includes(option)) {
@@ -105,58 +89,10 @@ function FilterButton({ name, options }: Props) {
               );
             })}
           </OptionList>
-        )}
-      </Wrap>
-    );
-  }
-  if (name === '재료') {
-    return (
-      <Wrap>
-        <Button
-          value="materials"
-          type="button"
-          onClick={handleClick}
-          isSelected={materials.length > 0}
-        >
-          {name}
-          {materials.length > 0 && <span>({materials.length})</span>}
-          <IoMdArrowDropdown className="icon" size="20" />
-        </Button>
-        {isClicked && (
-          <OptionList>
-            {options.map((option) => {
-              if (materials.includes(option)) {
-                return (
-                  <OptionItem key={option}>
-                    <input
-                      type="checkbox"
-                      name={name}
-                      value={option}
-                      onChange={handleCheck}
-                      checked
-                    />
-                    <p>{option}</p>
-                  </OptionItem>
-                );
-              }
-              return (
-                <OptionItem key={option}>
-                  <input
-                    type="checkbox"
-                    name={name}
-                    value={option}
-                    onChange={handleCheck}
-                  />
-                  <p>{option}</p>
-                </OptionItem>
-              );
-            })}
-          </OptionList>
-        )}
-      </Wrap>
-    );
-  }
-  return <h1>오류</h1>;
+        </div>
+      )}
+    </Wrap>
+  );
 }
 
 export default FilterButton;

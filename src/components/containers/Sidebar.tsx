@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { RefObject, useEffect } from 'react';
 import styled from 'styled-components';
 import logoBlue from 'assets/img/logo-blue.png';
 import buildingGray from 'assets/img/building-gray.png';
 import { ClickAway } from 'hooks/useClickAway';
 
-type Sidebar = Pick<ClickAway, 'clickRef' | 'isOpened'>;
+type Sidebar = Pick<ClickAway<RefObject<HTMLElement>>, 'clickRef' | 'isOpened'>;
 
 function Sidebar({ clickRef, isOpened }: Sidebar) {
   useEffect(() => {

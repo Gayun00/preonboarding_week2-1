@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import hamburger from 'assets/img/hamburger.png';
 import { ClickAway } from 'hooks/useClickAway';
 
-type TMenuToggle = Pick<ClickAway, 'onToggle'>;
+type TMenuToggle = Pick<ClickAway<HTMLElement>, 'onToggle'>;
 
 function MenuToggle({ onToggle }: TMenuToggle) {
   const onClickButton = () => {

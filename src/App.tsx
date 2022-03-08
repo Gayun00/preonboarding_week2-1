@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchData, Request } from 'store/request';
 import store from 'store/store';
 import styled from 'styled-components';
-import { API_URL } from '../src/constants/index';
+import { API_URL, filterList } from '../src/constants/index';
 
 type RootState = ReturnType<typeof store.getState>;
 
@@ -40,11 +40,9 @@ function App() {
         </TitleSection>
         <ControllerSection>
           <div className="controller">
-            <FilterButton name="가공방식" options={['밀링', '선반']} />
-            <FilterButton
-              name="재료"
-              options={['알루미늄', '탄소강', '구리', '합금강', '강철']}
-            />
+            {Object.entries(filterList).map(([key, value]) => (
+              <FilterButton key={key} name={key} options={value} />
+            ))}
             {(methods.length > 0 || materials.length > 0) && <ResetButton />}
           </div>
           <div className="controller">

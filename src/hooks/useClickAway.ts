@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState, RefObject } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export interface ClickAway {
-  clickRef: RefObject<HTMLElement>;
+export interface ClickAway<T> {
+  clickRef: T;
   isOpened: boolean;
   onToggle: () => void;
 }
 
 function useClickAway() {
   const [isOpened, setIsOpened] = useState(false);
-  const clickRef = useRef<HTMLElement>(null);
+  const clickRef = useRef<any>(null);
 
   function handleClickAway(e: MouseEvent): void {
     const target = e.target as HTMLElement;
